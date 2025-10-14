@@ -137,9 +137,7 @@ export default function Menu() {
                 </div>
                 <p className="text-gray-600">{item.description}</p>
 
-                <button
-                  variant ="outline"
-                  className="bg-[#FF7A00] hover:bg-[#e66d00] text-white text-lg px-4 py-4 mt-4 rounded-full transition-transform hover:scale-105">
+                <button className="bg-[#FF7A00] hover:bg-[#e66d00] text-white text-lg px-4 py-4 mt-4 rounded-full transition-transform hover:scale-105">
                   add to cart
                 </button>
 

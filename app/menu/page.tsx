@@ -250,7 +250,6 @@ export default function MenuPage() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">{item.name}</h3>
                 <p className="text-gray-600 leading-relaxed">{item.description}</p>
                 <button
-                  variant ="outline"
                   className="bg-[#FF7A00] hover:bg-[#e66d00] text-white text-lg px-4 py-4 mt-4 rounded-full transition-transform hover:scale-105">
                   add to cart
                 </button>
