@@ -3,9 +3,16 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import { useCart } from '@/components/context/CartContext';
+
+type MenuItem = {
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+};
 
 const fullMenu = {
   Starters: [
@@ -188,14 +195,12 @@ const fullMenu = {
 
 export default function MenuPage() {
   const [activeCategory, setActiveCategory] = useState('Starters');
-  const [cart, setCart] = useState<{ name: string; price: string }[]>([]);
+  const { cart, addToCart, increaseQty, decreaseQty } = useCart();
 
-  const handleAddToCart = (item: { name: string; price: string }) => {
-    setCart([...cart, item]);
-  };
-
-  const isInCart = (name: string) => {
-    return cart.some((cartItem) => cartItem.name === name);
+  const isInCart = (name: string) => cart.some((i) => i.name === name);
+  const getQuantity = (name: string) => {
+    const item = cart.find((i) => i.name === name);
+    return item ? item.quantity : 0;
   };
 
   return (
@@ -237,15 +242,9 @@ export default function MenuPage() {
           ))}
         </div>
 
-        {/* Section Heading */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">{activeCategory}</h2>
-          <div className="w-16 h-1 bg-[#FF7A00]"></div>
-        </div>
-
         {/* Menu Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {fullMenu[activeCategory as keyof typeof fullMenu].map((item, index) => (
+          {(fullMenu[activeCategory as keyof typeof fullMenu] || []).map((item, index) => (
             <div key={index} className="bg-white shadow-lg rounded-lg overflow-hidden">
               <img src={item.image} alt={item.name} className="w-full h-56 object-cover" />
               <div className="p-6">
@@ -254,15 +253,34 @@ export default function MenuPage() {
                 <p className="text-lg font-bold mt-2">{item.price}</p>
 
                 {isInCart(item.name) ? (
-                  <Link
-                    href="/checkout"
-                    className="bg-green-600 hover:bg-green-700 text-white text-lg px-4 py-2 mt-4 block rounded-full text-center"
-                  >
-                    Go to Cart
-                  </Link>
+                  <>
+                    <Link
+                      href="/checkout"
+                      className="bg-green-600 hover:bg-green-700 text-white text-lg px-4 py-2 mt-4 block rounded-full text-center"
+                    >
+                      Go to Cart
+                    </Link>
+
+                    {/* Quantity Controls */}
+                    <div className="flex items-center justify-center mt-2 space-x-4">
+                      <button
+                        onClick={() => decreaseQty(item.name)}
+                        className="bg-gray-200 px-3 py-1 rounded-full text-lg"
+                      >
+                        -
+                      </button>
+                      <span>{getQuantity(item.name)}</span>
+                      <button
+                        onClick={() => increaseQty(item.name)}
+                        className="bg-gray-200 px-3 py-1 rounded-full text-lg"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </>
                 ) : (
                   <button
-                    onClick={() => handleAddToCart(item)}
+                    onClick={() => addToCart(item)}
                     className="bg-[#FF7A00] hover:bg-[#e66d00] text-white text-lg px-4 py-2 mt-4 w-full rounded-full"
                   >
                     Add to Cart
@@ -273,8 +291,6 @@ export default function MenuPage() {
           ))}
         </div>
       </div>
-
-      {/* ✅ Footer should be outside main content */}
       <Footer />
     </div>
   );

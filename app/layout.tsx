@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
+import { CartProvider } from '@/components/context/CartContext'; // import CartProvider
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -20,7 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={poppins.className}>{children}</body>
+      <body className={poppins.className}>
+        <CartProvider>
+          {children}
+        </CartProvider>
+      </body>
     </html>
   );
 }
+

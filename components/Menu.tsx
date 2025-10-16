@@ -2,6 +2,15 @@
 
 import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useCart } from './context/CartContext';
+import Link from 'next/link';
+
+type MenuItem = {
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+};
 
 const menuCategories = {
   Starters: [
@@ -90,37 +99,46 @@ const menuCategories = {
 
 export default function Menu() {
   const [activeCategory, setActiveCategory] = useState('Starters');
+  const { cart, addToCart, increaseQty, decreaseQty } = useCart();
+
+  const isInCart = (name: string) => cart.some((i) => i.name === name);
+  const getQuantity = (name: string) => {
+    const item = cart.find((i) => i.name === name);
+    return item ? item.quantity : 0;
+  };
 
   return (
     <section id="menu" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Our Menu
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Our Menu</h2>
           <div className="w-20 h-1 bg-[#FF7A00] mx-auto mb-6"></div>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             Discover our carefully crafted dishes made with the finest ingredients
           </p>
         </div>
 
+        {/* Category Tabs */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {Object.keys(menuCategories).map((category) => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-6 py-3 rounded-full font-medium transition-all ${activeCategory === category
+              className={`px-6 py-3 rounded-full font-medium transition-all ${
+                activeCategory === category
                   ? 'bg-[#FF7A00] text-white shadow-lg'
                   : 'bg-white text-gray-700 hover:bg-gray-100'
-                }`}
+              }`}
             >
               {category}
             </button>
           ))}
         </div>
 
+        {/* Menu Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {menuCategories[activeCategory as keyof typeof menuCategories].map((item, index) => (
+          {menuCategories[activeCategory].map((item, index) => (
             <Card
               key={index}
               className="overflow-hidden hover:shadow-xl transition-shadow duration-300 group"
@@ -139,10 +157,40 @@ export default function Menu() {
                 </div>
                 <p className="text-gray-600">{item.description}</p>
 
-                <button className="bg-[#FF7A00] hover:bg-[#e66d00] text-white text-lg px-4 py-4 mt-4 rounded-full transition-transform hover:scale-105">
-                  add to cart
-                </button>
+                {isInCart(item.name) ? (
+                  <>
+                    <Link
+                      href="/checkout"
+                      className="bg-green-600 hover:bg-green-700 text-white text-lg px-4 py-2 mt-4 block rounded-full text-center"
+                    >
+                      Go to Cart
+                    </Link>
 
+                    {/* Quantity Controls */}
+                    <div className="flex items-center justify-center mt-2 space-x-4">
+                      <button
+                        onClick={() => decreaseQty(item.name)}
+                        className="bg-gray-200 px-3 py-1 rounded-full text-lg"
+                      >
+                        -
+                      </button>
+                      <span>{getQuantity(item.name)}</span>
+                      <button
+                        onClick={() => increaseQty(item.name)}
+                        className="bg-gray-200 px-3 py-1 rounded-full text-lg"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => addToCart(item)}
+                    className="bg-[#FF7A00] hover:bg-[#e66d00] text-white text-lg px-4 py-2 mt-4 w-full rounded-full"
+                  >
+                    Add to Cart
+                  </button>
+                )}
               </CardContent>
             </Card>
           ))}

@@ -1,37 +1,143 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+import { MapPin, Phone, Mail } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent } from '@/components/ui/card';
+
 export default function Contact() {
   return (
-    <div className="min-h-screen pt-24 px-6 md:px-16 lg:px-32" id="contactus">
-      <Navbar />
-      <h1 className="text-4xl font-bold text-center mb-8">Contact Us</h1>
+    <section id="contact" className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Navbar />
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Get In Touch
+          </h2>
+          <div className="w-20 h-1 bg-[#FF7A00] mx-auto mb-6"></div>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+          </p>
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-12">
-        {/* Contact Form */}
-        <form className="space-y-4">
-          <input type="text" placeholder="Your Name" className="w-full border px-4 py-2 rounded" required />
-          <input type="email" placeholder="Your Email" className="w-full border px-4 py-2 rounded" required />
-          <textarea placeholder="Your Message" className="w-full border px-4 py-2 rounded" rows={5} required></textarea> 
-          <button className="bg-black text-white px-6 py-2 rounded">Send Message</button> <br/> <br/>
-        </form>
+        <div className="grid md:grid-cols-2 gap-12">
+          <div>
+            <Card className="mb-8">
+              <CardContent className="p-8">
+                <form className="space-y-6">
+                  <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                      Name
+                    </label>
+                    <Input
+                      id="name"
+                      placeholder="Your name"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone
+                    </label>
+                    <Input
+                      id="phone"
+                      placeholder="(123) 456-7890"
+                      className="w-full"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Message
+                    </label>
+                    <Textarea
+                      id="message"
+                      placeholder="Tell us about your inquiry..."
+                      rows={5}
+                      className="w-full"
+                    />
+                  </div>
+                  <Button className="w-full bg-[#FF7A00] hover:bg-[#e66d00] text-white py-6 text-lg">
+                    Send Message
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Contact Info */}
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
-          <p className="text-gray-700 mb-3">📍 Address: Your Company Address</p>
-          <p className="text-gray-700 mb-3">📞 Phone: +91 1234567890</p>
-          <p className="text-gray-700 mb-3">✉️ Email: contact@yourcompany.com</p>
+          <div className="space-y-6">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 flex items-start">
+                <div className="bg-[#FF7A00] p-3 rounded-full mr-4">
+                  <MapPin className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">Address</h3>
+                  <p className="text-gray-600">
+                    123 Culinary Street<br />
+                    Downtown, NY 10001<br />
+                    United States
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
 
-          <div className="mt-4 flex gap-4">
-            <a href="#" className="text-blue-600">Facebook</a>
-            <a href="#" className="text-blue-400">Twitter</a>
-            <a href="#" className="text-pink-600">Instagram</a>
-            <a href="#" className="text-blue-700">LinkedIn</a>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 flex items-start">
+                <div className="bg-[#FF7A00] p-3 rounded-full mr-4">
+                  <Phone className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">Phone</h3>
+                  <p className="text-gray-600">
+                    +1 (555) 123-4567<br />
+                    Mon - Sun: 11:00 AM - 11:00 PM
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 flex items-start">
+                <div className="bg-[#FF7A00] p-3 rounded-full mr-4">
+                  <Mail className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900 mb-2">Email</h3>
+                  <p className="text-gray-600">
+                    info@foodiehub.com<br />
+                    reservations@foodiehub.com
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            <div className="rounded-lg overflow-hidden shadow-lg h-64">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1635960000000!5m2!1sen!2s"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+              ></iframe>
+            </div>
           </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </section>
   );
 }
