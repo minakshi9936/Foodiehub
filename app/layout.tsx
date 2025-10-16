@@ -1,7 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
-import { CartProvider } from '@/components/context/CartContext'; // import CartProvider
+import { CartProvider } from '@/components/context/CartContext';
+import { UserProvider } from '@/components/context/UserContext'; // add this
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,11 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={poppins.className}>
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <UserProvider> {/* Wrap with UserProvider */}
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </UserProvider>
       </body>
     </html>
   );
 }
-
